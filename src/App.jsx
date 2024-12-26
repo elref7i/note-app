@@ -1,9 +1,24 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import Layout from "./Components/Layout/Layout"
+import Login from "./pages/Login/Login"
+import Signup from "./pages/Signup/Signup"
 
 export default function App() {
 
+
+  const router = createBrowserRouter([{
+    
+    path:"/",
+    element:<Layout/>,
+    children:[
+      {path:"/login" ,element:<Login/>},
+      {path:"/signup" ,element:<Signup/>}
+    ]
+  }]);
+
   return (
     <>
-      <div><i className="fa-brands  fa-facebook fa mr-2"></i>app</div>
+    <RouterProvider router={router}/>
     </>
   )
 }
