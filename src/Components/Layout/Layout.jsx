@@ -6,7 +6,7 @@ export default function Layout() {
   return (
     <>
       <NavbarWbsite />
-      <div className="min-h-[80vh] pt-[30px]">
+      <div className="h-[calc(100vh-64px)] pt-[72px] flex items-center justify-center  bg-gray-900">
         <Outlet></Outlet>
       </div>
       <Footer />
