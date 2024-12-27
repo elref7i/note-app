@@ -1,12 +1,14 @@
 import axios from 'axios';
 import { useFormik } from 'formik';
+import { useContext } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { UserContext } from '../../context/User.context';
 
 export default function Login() {
   const navigate = useNavigate();
-
+  const { setToken } = useContext(UserContext);
   const passwordRegx = /^[a-zA-Z0-9!@#$%^&*]{6,20}$/;
   const emailRegx = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
   const validationSchema = Yup.object({
@@ -32,6 +34,8 @@ export default function Login() {
         setTimeout(() => {
           navigate('/login');
         }, 2000);
+        setToken(data.token);
+        localStorage.setItem('token', data.token);
       }
       console.log(data);
     } catch (error) {
@@ -67,7 +71,6 @@ export default function Login() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="Enter your email"
-              autoComplete="off"
             />
             {formik.errors.email && formik.touched.email ? (
               <p className="text-red-600">{formik.errors.email}</p>
@@ -83,8 +86,7 @@ export default function Login() {
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              placeholder="Enter your Name"
-              autoComplete="off"
+              placeholder="Enter your password"
             />
             {formik.errors.password && formik.touched.password ? (
               <p className="text-red-600">{formik.errors.password}</p>
