@@ -4,11 +4,14 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { UserContext } from '../../context/User.context';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 export default function AddNoteModel() {
   const [openModal, setOpenModal] = useState(false);
   const { token } = useContext(UserContext);
 
   async function addNote(values) {
+    const loadingToast = toast.loading('Watting');
+
     try {
       const options = {
         url: 'https://note-sigma-black.vercel.app/api/v1/notes',
@@ -19,9 +22,15 @@ export default function AddNoteModel() {
         },
       };
       const { data } = await axios.request(options);
+      if (data.msg === 'done') {
+        toast.success('done');
+      }
       console.log(data);
     } catch (error) {
+      toast.error('error');
       console.log(error);
+    } finally {
+      toast.dismiss(loadingToast);
     }
   }
   function onCloseModal() {

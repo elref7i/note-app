@@ -6,7 +6,7 @@ export default function Layout() {
   return (
     <>
       <NavbarWbsite />
-      <div className="h-[calc(100vh-64px)] pt-[90px]  bg-gray-900">
+      <div className="min-h-[calc(100vh-64px)] pt-[90px] pb-20  bg-gray-900">
         <Outlet></Outlet>
       </div>
       <Footer />
