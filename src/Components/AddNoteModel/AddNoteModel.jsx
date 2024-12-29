@@ -5,9 +5,11 @@ import * as Yup from 'yup';
 import { UserContext } from '../../context/User.context';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { NoteContext } from '../../context/Note.context';
 export default function AddNoteModel() {
   const [openModal, setOpenModal] = useState(false);
   const { token } = useContext(UserContext);
+  const { getNote } = useContext(NoteContext);
 
   async function addNote(values) {
     const loadingToast = toast.loading('Watting');
@@ -24,6 +26,7 @@ export default function AddNoteModel() {
       const { data } = await axios.request(options);
       if (data.msg === 'done') {
         toast.success('done');
+        getNote();
       }
       console.log(data);
     } catch (error) {
