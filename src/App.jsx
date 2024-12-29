@@ -7,6 +7,7 @@ import ProductedRoute from './Components/ProductedRoute/ProductedRoute';
 import GuestRoute from './Components/GuestRoute/GuestRoute';
 import Home from './pages/Home/Home';
 import UserProvider from './context/User.context';
+import NoteProvider from './context/Note.context';
 
 export default function App() {
   const router = createBrowserRouter([
@@ -36,7 +37,9 @@ export default function App() {
   return (
     <>
       <UserProvider>
-        <RouterProvider router={router} />
+        <NoteProvider>
+          <RouterProvider router={router} />
+        </NoteProvider>
         <Toaster />
       </UserProvider>
     </>
