@@ -26,6 +26,7 @@ export default function AddNoteModel() {
       const { data } = await axios.request(options);
       if (data.msg === 'done') {
         toast.success('done');
+        setOpenModal(false);
         getNote();
       }
       console.log(data);
