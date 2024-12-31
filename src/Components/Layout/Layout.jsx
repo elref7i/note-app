@@ -6,9 +6,11 @@ export default function Layout() {
   return (
     <>
       <NavbarWbsite />
-      <div className="min-h-[calc(100vh-64px)] pt-[90px] pb-20  bg-gray-900">
-        <Outlet></Outlet>
-      </div>
+      <main className="bg-gray-900">
+        <div className="container min-h-[calc(100vh-64px)] pt-[90px] pb-20">
+          <Outlet></Outlet>
+        </div>
+      </main>
       <Footer />
     </>
   );

@@ -7,9 +7,8 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { NoteContext } from '../../context/Note.context';
 export default function AddNoteModel() {
-  const [openModal, setOpenModal] = useState(false);
   const { token } = useContext(UserContext);
-  const { getNote } = useContext(NoteContext);
+  const { getNote, openModal, setOpenModal } = useContext(NoteContext);
 
   async function addNote(values) {
     const loadingToast = toast.loading('Watting');

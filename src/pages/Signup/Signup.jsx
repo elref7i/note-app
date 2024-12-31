@@ -9,6 +9,7 @@ export default function Signup() {
   const passwordRegx = /^[a-zA-Z0-9!@#$%^&*]{6,20}$/;
   const emailRegx = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
   const phoneRegx = /^(02)?01[0125][0-9]{8}/;
+  const ageRegx = /^[1-9][0-9]?$/;
   const validationSchema = Yup.object({
     name: Yup.string().required('* name is required').min(3).max(20),
     email: Yup.string()
@@ -18,8 +19,9 @@ export default function Signup() {
       .required('age is required')
       .positive('Age not vaild')
       .integer('Age not vaild')
-      .min(1)
-      .max(2),
+      .test('is-valid-age', 'Age not valid', (value) =>
+        ageRegx.test(value?.toString() || '')
+      ),
     password: Yup.string()
       .required('* password is required')
       .matches(passwordRegx, '* password not vaild'),
