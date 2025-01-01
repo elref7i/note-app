@@ -3,8 +3,9 @@ import AddNoteModel from '../../Components/AddNoteModel/AddNoteModel';
 import { NoteContext } from '../../context/Note.context';
 
 export default function Home() {
-  const { getNote, notes, setOpenModal, deleteNote, updateNote } =
+  const { getNote, notes, setOpenModal, deleteNote, setCheck } =
     useContext(NoteContext);
+
   useEffect(() => {
     getNote();
   }, []);
@@ -30,7 +31,7 @@ export default function Home() {
                   <i
                     onClick={() => {
                       setOpenModal(true);
-                      updateNote({ noteId: note._id });
+                      setCheck('update'.toLowerCase());
                     }}
                     className="fa-regular fa-pen-to-square p-2 bg-yellow-300 hover:bg-yellow-500 cursor-pointer duration-500 transition-colors text-white rounded-full"
                   ></i>

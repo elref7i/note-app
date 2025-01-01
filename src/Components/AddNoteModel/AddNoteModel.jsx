@@ -1,62 +1,23 @@
 import { Label, Modal, TextInput } from 'flowbite-react';
-import { useContext, useState } from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { UserContext } from '../../context/User.context';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import { useContext } from 'react';
+// import { useFormik } from 'formik';
+// import * as Yup from 'yup';
 import { NoteContext } from '../../context/Note.context';
 export default function AddNoteModel() {
-  const { token } = useContext(UserContext);
-  const { getNote, openModal, setOpenModal } = useContext(NoteContext);
+  const { openModal, setOpenModal, check, setCheck, formik } =
+    useContext(NoteContext);
 
-  async function addNote(values) {
-    const loadingToast = toast.loading('Watting');
-
-    try {
-      const options = {
-        url: 'https://note-sigma-black.vercel.app/api/v1/notes',
-        method: 'POST',
-        data: values,
-        headers: {
-          token: `3b8ny__${token}`,
-        },
-      };
-      const { data } = await axios.request(options);
-      if (data.msg === 'done') {
-        toast.success('done');
-        setOpenModal(false);
-        getNote();
-      }
-      console.log(data);
-    } catch (error) {
-      toast.error('error');
-      console.log(error);
-    } finally {
-      toast.dismiss(loadingToast);
-    }
-  }
   function onCloseModal() {
     setOpenModal(false);
   }
-  const validationSchema = Yup.object({
-    title: Yup.string().required('required'),
-    content: Yup.string().required('required'),
-  });
-
-  const formik = useFormik({
-    initialValues: {
-      title: '',
-      content: '',
-    },
-    validationSchema,
-    onSubmit: addNote,
-  });
 
   return (
     <>
       <button
-        onClick={() => setOpenModal(true)}
+        onClick={() => {
+          setOpenModal(true);
+          setCheck('add'.toLowerCase());
+        }}
         className="bg-yellow-300 hover:bg-yellow-400  font-bold text-lg py-3 px-4 btn"
       >
         {' '}
@@ -127,13 +88,22 @@ export default function AddNoteModel() {
                 <p className="invisible"></p>
               )}
             </div>
-
-            <button
-              type="submit"
-              className="mx-auto block bg-yellow-300 hover:bg-yellow-400 font-medium text-xl py-2 px-5 btn"
-            >
-              Add Note
-            </button>
+            {check === 'add'.toLowerCase() ? (
+              <button
+                onClick={formik.handleSubmit}
+                type="submit"
+                className="mx-auto block bg-yellow-300 hover:bg-yellow-400 font-medium text-xl py-2 px-5 btn"
+              >
+                Add Note
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="mx-auto block bg-yellow-300 hover:bg-yellow-400 font-medium text-xl py-2 px-5 btn"
+              >
+                Update Note
+              </button>
+            )}
           </form>
         </Modal.Body>
       </Modal>
