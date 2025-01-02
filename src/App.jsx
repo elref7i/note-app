@@ -28,8 +28,8 @@ export default function App() {
         </GuestRoute>
       ),
       children: [
-        { path: '/login', element: <Login /> },
-        { path: '/signup', element: <Signup /> },
+        { path: 'login', element: <Login /> },
+        { path: 'signup', element: <Signup /> },
       ],
     },
   ]);
