@@ -2,17 +2,15 @@ import { createContext, useContext, useState } from 'react';
 import { UserContext } from './User.context';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+
 export const NoteContext = createContext(0);
 
 // eslint-disable-next-line react/prop-types
 export default function NoteProvider({ children }) {
   const [openModal, setOpenModal] = useState(false);
-
   const [notes, setNotes] = useState(null);
+  // const [PutID, setPutID] = useState(null);
   const { token } = useContext(UserContext);
-  const [check, setCheck] = useState('add'.toLowerCase());
 
   async function addNote(values) {
     const loadingToast = toast.loading('Watting');
@@ -73,20 +71,31 @@ export default function NoteProvider({ children }) {
       console.log(error);
     }
   }
+  // async function updateNote(values) {
+  //   const loadingToast = toast.loading('Watting');
 
-  const validationSchema = Yup.object({
-    title: Yup.string().required('required'),
-    content: Yup.string().required('required'),
-  });
-
-  const formik = useFormik({
-    initialValues: {
-      title: '',
-      content: '',
-    },
-    validationSchema,
-    onSubmit: addNote,
-  });
+  //   try {
+  //     const options = {
+  //       url: `https://note-sigma-black.vercel.app/api/v1/notes/${PutID}`,
+  //       method: 'PUT',
+  //       data: values,
+  //       headers: {
+  //         token: `3b8ny__${token}`,
+  //       },
+  //     };
+  //     const { data } = await axios.request(options);
+  //     if (data.msg === 'done') {
+  //       toast.success('done');
+  //       getNote();
+  //     }
+  //     console.log(data);
+  //   } catch (error) {
+  //     toast.error('error');
+  //     console.log(error);
+  //   } finally {
+  //     toast.dismiss(loadingToast);
+  //   }
+  // }
 
   return (
     <>
@@ -97,9 +106,8 @@ export default function NoteProvider({ children }) {
           setOpenModal,
           openModal,
           deleteNote,
-          check,
-          setCheck,
-          formik,
+          addNote,
+          // setPutID,
         }}
       >
         {children}

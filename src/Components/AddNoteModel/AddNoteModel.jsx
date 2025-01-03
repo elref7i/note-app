@@ -1,11 +1,24 @@
 import { Label, Modal, TextInput } from 'flowbite-react';
 import { useContext } from 'react';
-// import { useFormik } from 'formik';
-// import * as Yup from 'yup';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import { NoteContext } from '../../context/Note.context';
-export default function AddNoteModel() {
-  const { openModal, setOpenModal, check, setCheck, formik } =
-    useContext(NoteContext);
+export default function AddNoteModel({ check, setCheck }) {
+  const { openModal, setOpenModal, addNote } = useContext(NoteContext);
+
+  const validationSchema = Yup.object({
+    title: Yup.string().required('required'),
+    content: Yup.string().required('required'),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      title: '',
+      content: '',
+    },
+    validationSchema,
+    onSubmit: addNote,
+  });
 
   function onCloseModal() {
     setOpenModal(false);
