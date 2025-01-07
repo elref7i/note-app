@@ -12,6 +12,8 @@ export default function NoteProvider({ children }) {
   const [openModal, setOpenModal] = useState(false);
   const [notes, setNotes] = useState(null);
   const [PutID, setPutID] = useState(null);
+  const [check, setCheck] = useState('add'.toLowerCase());
+
   const { token } = useContext(UserContext);
 
   async function addNote(values) {
@@ -29,10 +31,9 @@ export default function NoteProvider({ children }) {
       const { data } = await axios.request(options);
       if (data.msg === 'done') {
         toast.success('done');
-        setOpenModal(false);
         getNote();
       }
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       toast.error('error');
       console.log(error);
@@ -50,14 +51,17 @@ export default function NoteProvider({ children }) {
         },
       };
       const { data } = await axios.request(options);
-      console.log(data.notes);
+      console.log(data);
       setNotes(data.notes);
     } catch (error) {
       console.log(error);
+      setNotes(null);
     }
   }
 
   async function deleteNote({ noteId }) {
+    const loadingToast = toast.loading('Watting');
+
     try {
       const options = {
         url: `https://note-sigma-black.vercel.app/api/v1/notes/${noteId}`,
@@ -67,10 +71,15 @@ export default function NoteProvider({ children }) {
         },
       };
       const { data } = await axios.request(options);
-      console.log(data.notes);
-      getNote();
+      if (data.msg === 'done') {
+        toast.success('done');
+        getNote();
+      }
     } catch (error) {
       console.log(error);
+      toast.error('error');
+    } finally {
+      toast.dismiss(loadingToast);
     }
   }
 
@@ -90,9 +99,8 @@ export default function NoteProvider({ children }) {
       if (data.msg === 'done') {
         toast.success('done');
         getNote();
-        setOpenModal(false);
       }
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       toast.error('error');
       console.log(error);
@@ -112,8 +120,11 @@ export default function NoteProvider({ children }) {
     },
     validationSchema,
     onSubmit: async (values) => {
-      await updateNote(values);
-      // formik.resetForm();
+      check === 'add'.toLowerCase()
+        ? await addNote(values)
+        : await updateNote(values);
+      setOpenModal(false);
+      formik.resetForm();
     },
   });
 
@@ -129,6 +140,8 @@ export default function NoteProvider({ children }) {
           addNote,
           formik,
           setPutID,
+          check,
+          setCheck,
         }}
       >
         {children}

@@ -13,7 +13,7 @@ export default function NavbarWbsite() {
       <nav className="shadow-md fixed z-50 left-0 right-0 py-1 bg-gray-800">
         <div className="container ">
           <Navbar className="!bg-gray-800 text-white">
-            <Navbar.Brand href="https://flowbite-react.com">
+            <Navbar.Brand href="/">
               <span className="self-center font-bold whitespace-nowrap  text-xl dark:text-white">
                 Notes
               </span>

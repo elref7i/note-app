@@ -88,7 +88,6 @@ export default function AddNoteModel({ check, setCheck }) {
             </div>
             {check === 'add'.toLowerCase() ? (
               <button
-                onClick={formik.handleSubmit}
                 type="submit"
                 className="mx-auto block bg-yellow-300 hover:bg-yellow-400 font-medium text-xl py-2 px-5 btn"
               >
