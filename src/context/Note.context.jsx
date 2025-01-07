@@ -2,6 +2,8 @@ import { createContext, useContext, useState } from 'react';
 import { UserContext } from './User.context';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
 
 export const NoteContext = createContext(0);
 
@@ -9,7 +11,7 @@ export const NoteContext = createContext(0);
 export default function NoteProvider({ children }) {
   const [openModal, setOpenModal] = useState(false);
   const [notes, setNotes] = useState(null);
-  // const [PutID, setPutID] = useState(null);
+  const [PutID, setPutID] = useState(null);
   const { token } = useContext(UserContext);
 
   async function addNote(values) {
@@ -71,31 +73,49 @@ export default function NoteProvider({ children }) {
       console.log(error);
     }
   }
-  // async function updateNote(values) {
-  //   const loadingToast = toast.loading('Watting');
 
-  //   try {
-  //     const options = {
-  //       url: `https://note-sigma-black.vercel.app/api/v1/notes/${PutID}`,
-  //       method: 'PUT',
-  //       data: values,
-  //       headers: {
-  //         token: `3b8ny__${token}`,
-  //       },
-  //     };
-  //     const { data } = await axios.request(options);
-  //     if (data.msg === 'done') {
-  //       toast.success('done');
-  //       getNote();
-  //     }
-  //     console.log(data);
-  //   } catch (error) {
-  //     toast.error('error');
-  //     console.log(error);
-  //   } finally {
-  //     toast.dismiss(loadingToast);
-  //   }
-  // }
+  async function updateNote(values) {
+    const loadingToast = toast.loading('Watting');
+
+    try {
+      const options = {
+        url: `https://note-sigma-black.vercel.app/api/v1/notes/${PutID}`,
+        method: 'PUT',
+        data: values,
+        headers: {
+          token: `3b8ny__${token}`,
+        },
+      };
+      const { data } = await axios.request(options);
+      if (data.msg === 'done') {
+        toast.success('done');
+        getNote();
+        setOpenModal(false);
+      }
+      console.log(data);
+    } catch (error) {
+      toast.error('error');
+      console.log(error);
+    } finally {
+      toast.dismiss(loadingToast);
+    }
+  }
+  const validationSchema = Yup.object({
+    title: Yup.string().required('required'),
+    content: Yup.string().required('required'),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      title: '',
+      content: '',
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      await updateNote(values);
+      // formik.resetForm();
+    },
+  });
 
   return (
     <>
@@ -107,7 +127,8 @@ export default function NoteProvider({ children }) {
           openModal,
           deleteNote,
           addNote,
-          // setPutID,
+          formik,
+          setPutID,
         }}
       >
         {children}

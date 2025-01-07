@@ -1,15 +1,20 @@
+/* eslint-disable react/prop-types */
 import { useContext } from 'react';
 import { NoteContext } from '../../context/Note.context';
 
 export default function Note({ noteInfo, setCheck }) {
-  const { deleteNote, setOpenModal } = useContext(NoteContext);
+  const { deleteNote, setOpenModal, formik, setPutID } =
+    useContext(NoteContext);
 
+  const { _id: id, title, content } = noteInfo;
   console.log(noteInfo);
   function handleUpdate() {
     setCheck('update'.toLowerCase());
     setOpenModal(true);
+    setPutID(id);
+    formik.setFieldValue('title', title);
+    formik.setFieldValue('content', content);
   }
-  const { _id: id, title, content } = noteInfo;
   return (
     <>
       <div className="note p-5 col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 rounded-sm  bg-slate-500 ">

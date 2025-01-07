@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import AddNoteModel from '../../Components/AddNoteModel/AddNoteModel';
 import { NoteContext } from '../../context/Note.context';
-import Note from '../../Components/Note/Note';
+import Note from '../../Components/note/note';
 
 export default function Home() {
   const { getNote, notes } = useContext(NoteContext);
