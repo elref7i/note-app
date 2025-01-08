@@ -1,7 +1,7 @@
 'use client';
 
 import { Avatar, Dropdown, Navbar } from 'flowbite-react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { UserContext } from '../../context/User.context';
 import { useContext } from 'react';
 
@@ -13,11 +13,11 @@ export default function NavbarWbsite() {
       <nav className="shadow-md fixed z-50 left-0 right-0 py-1 bg-gray-800">
         <div className="container ">
           <Navbar className="!bg-gray-800 text-white">
-            <Navbar.Brand href="/">
+            <Link to="/">
               <span className="self-center font-bold whitespace-nowrap  text-xl dark:text-white">
                 Notes
               </span>
-            </Navbar.Brand>
+            </Link>
             {!token && (
               <div className="py-2">
                 <NavLink
