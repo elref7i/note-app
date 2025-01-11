@@ -45,3 +45,10 @@ export default function App() {
     </>
   );
 }
+
+// - React ⇒ Build tool ⇒ Vite . ✅
+// - Formik  ⇒ Validtion  ⇒ Yup ✅
+// - Axios   ✅
+// - Style : Tailwind CSS ✅  ❌
+// - Component ⇒ Flowbite ✅ ❌
+// - alert  ⇒ react-hot-toast ✅ ❌

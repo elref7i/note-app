@@ -71,6 +71,7 @@ export default function Login() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="Enter your email"
+              autoComplete="off"
             />
             {formik.errors.email && formik.touched.email ? (
               <p className="text-red-600">{formik.errors.email}</p>
